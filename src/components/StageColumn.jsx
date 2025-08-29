@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
@@ -11,7 +11,9 @@ const StageColumn = ({ stageId, tasks }) => {
 
   // Filter tasks by priority (if not 'all')
   const filteredTasks =
-    filterPriority === 'all' ? tasks : tasks.filter((task) => task.priority === filterPriority);
+    filterPriority === 'all'
+      ? tasks
+      : tasks.filter((task) => task.priority === filterPriority);
 
   const handleAddTask = (newTask) => {
     dispatch(addTask({ stage: stageId, task: newTask }));
@@ -23,13 +25,27 @@ const StageColumn = ({ stageId, tasks }) => {
         <div
           ref={provided.innerRef}
           {...provided.droppableProps}
-          style={{ minHeight: '50vh', backgroundColor: '#fff', borderRadius: 4, padding: 8 }}
+          style={{
+            flex: 1,                        // equal width for all columns
+            minWidth: '280px',              // slightly smaller for better responsiveness
+            maxWidth: '350px',
+            height: '80vh',                 // consistent height
+            backgroundColor: '#fff',
+            borderRadius: 4,
+            padding: 8,
+            marginLeft: stageId === 'todo' ? '16px' : '8px', // extra left margin only for first column
+            marginRight: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
         >
           {filteredTasks.map((task, index) => (
             <TaskCard key={task.id} task={task} index={index} />
           ))}
           {provided.placeholder}
-          <AddTaskForm onAddTask={handleAddTask} />
+
+          {/* AddTaskForm only in todo
+          {stageId === 'todo' && <AddTaskForm onAddTask={handleAddTask} />} */}
         </div>
       )}
     </Droppable>

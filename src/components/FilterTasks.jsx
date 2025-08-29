@@ -44,10 +44,13 @@ const FilterTasks = () => {
       sx={{
         display: "flex",
         alignItems: "center",
+        justifyContent: "space-between", // distribute left & right
+        flexWrap: "wrap", // allow wrapping on smaller screens
         gap: 2,
       }}
     >
-      <FormControl size="small" sx={{ minWidth: 8 }}>
+      {/* Filter Dropdown */}
+      <FormControl size="small" sx={{ minWidth: 100 }}>
         <Select
           value={priority}
           onChange={handleChange}
@@ -82,13 +85,14 @@ const FilterTasks = () => {
           <MenuItem value="high">High</MenuItem>
         </Select>
       </FormControl>
-      {/* Share button with icon and label */}
+
+      {/* Right-side actions */}
       <Box
         sx={{
-          marginLeft: "800px",
           display: "flex",
           alignItems: "center",
           gap: 2,
+          flexWrap: "wrap", // responsive wrapping
         }}
       >
         <Button
@@ -110,7 +114,11 @@ const FilterTasks = () => {
           Share
         </Button>
 
-        <Divider orientation="vertical" flexItem sx={{ height: ITEM_HEIGHT }} />
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{ height: ITEM_HEIGHT, display: { xs: "none", sm: "block" } }}
+        />
 
         <Button
           variant="contained"
@@ -127,7 +135,7 @@ const FilterTasks = () => {
         >
           <DashboardIcon />
         </Button>
-        {/* Four-dot menu button */}
+
         <IconButton
           aria-label="more"
           size="large"
